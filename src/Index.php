@@ -151,6 +151,21 @@ class Eden_Array_Index
         	$this->original = $this->data = $data;
 		}
     }
+
+    /**
+     * Allow object property magic to redirect to the data variable
+     *
+     * @param *string
+     * @param *mixed
+     * @return void
+     */
+    public function __set($name, $value) 
+    {
+        //argument 1 must be a string
+        Eden_Array_Argument::i()->test(1, 'string');
+
+        $this->data[$name] = $value;
+    }
 	
     /**
      * If we output this to string we should see it as json
