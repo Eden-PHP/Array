@@ -1,3 +1,9 @@
+#DEVELOPMENT MODE
+
+```
+The following package is in review to be included in Eden v4. This package is not ready for production. Please wait for build badges before attempting to use this package.
+```
+
 # Array
 
 When using multiple PHP string or array functions in one line, it makes code harder to read. This is because a programmer needs to be trained to read code from inner to outer, rather than traditionally left to right (unless you live in Japan). Eden's data typing are objects that correct this readability problem.
