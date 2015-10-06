@@ -14,7 +14,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.1",
-		"eden/string": "4.x-dev" 
+		"eden/core": "4.x-dev" 
     },
     "autoload": {
          "classmap": [
