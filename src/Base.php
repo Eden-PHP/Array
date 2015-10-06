@@ -14,6 +14,6 @@
  * @package array
  * @author Christian Blanquera cblanquera@openovate.com
  */
-class Eden_Array_Base extends Eden\Core\Base 
+class Eden_Array_Base extends Eden\Core\Base
 {
 }
