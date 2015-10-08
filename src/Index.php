@@ -15,17 +15,17 @@
  * @author Christian Blanquera cblanquera@openovate.com
  */
 class Eden_Array_Index 
-	extends Eden_Array_Base 
-	implements ArrayAccess, Iterator, Serializable, Countable 
+    extends Eden_Array_Base 
+    implements ArrayAccess, Iterator, Serializable, Countable
 {
-	const PRE = 'pre';
+    const PRE = 'pre';
     const POST = 'post';
     const REFERENCE = 'reference';
 
-	protected $data = array();
-    protected $original = array();
-	
-	/**
+    public $data = array();
+    public $original = array();
+    
+    /**
      * Dermines if the missing method is actually a PHP call.
      * If so, call it.
      *
@@ -34,18 +34,18 @@ class Eden_Array_Index
      * @return mixed
      */
     public function __call($name, $args)  
-	{
-		Eden_Array_Argument::i()
-			//argument 1 must be a string
+    {
+        Eden_Array_Argument::i()
+            //argument 1 must be a string
             ->test(1, 'string') 
-			//argument 2 must be an array
+            //argument 2 must be an array
             ->test(2, 'array'); 
 
         //if the method starts with get
-        if(strpos($name, 'get') === 0) {
+        if (strpos($name, 'get') === 0) {
             //getUserName('-')
             $separator = '_';
-            if(isset($args[0]) && is_scalar($args[0])) {
+            if (isset($args[0]) && is_scalar($args[0])) {
                 $separator = (string) $args[0];
             }
 
@@ -53,7 +53,7 @@ class Eden_Array_Index
             //get rid of get
             $key = strtolower(substr($key, 3+strlen($separator)));
 
-            if(isset($this->data[$key])) {
+            if (isset($this->data[$key])) {
                 return $this->data[$key];
             }
 
@@ -61,7 +61,7 @@ class Eden_Array_Index
         } else if (strpos($name, 'set') === 0) {
             //setUserName('Chris', '-')
             $separator = '_';
-            if(isset($args[1]) && is_scalar($args[1])) {
+            if (isset($args[1]) && is_scalar($args[1])) {
                 $separator = (string) $args[1];
             }
 
@@ -74,18 +74,18 @@ class Eden_Array_Index
 
             return $this;
         }
-		
+        
         $name = $this->getMethod($name);
 
         //if no type
-        if(!isset(self::$methods[$name])) {
+        if (!isset(self::$_methods[$name])) {
             //we don't process anything else
             //call the parent
             return parent::__call($name, $args);
         }
 
         //case different types
-        switch(self::$methods[$name]) {
+        switch(self::$_methods[$name]) {
             case self::PRE:
                 //if pre, we add it first into the args
                 array_unshift($args, $this ->data);
@@ -97,17 +97,17 @@ class Eden_Array_Index
             case self::REFERENCE:
                 //if reference, we add it first 
                 //into the args and call it
-                call_user_func_array($name, array_merge(array(&$this ->data), $args));
+                call_user_func_array($name, array_merge(array(&$this->data), $args));
                 return $this;
         }
-		
+        
         //call the method
         $result = call_user_func_array($name, $args);
 
         //if the result is a string
-        if(is_string($result)) {
+        if (is_string($result)) {
             //if this class is a string type
-            if($this instanceof Eden_String_Index) {
+            if ($this instanceof Eden_String_Index) {
                 //set value
                 $this->data = $result;
                 return $this;    
@@ -118,9 +118,9 @@ class Eden_Array_Index
         }
 
         //if the result is an array
-        if(is_array($result)) {
+        if (is_array($result)) {
             //if this class is a array type
-            if($this instanceof Eden_Array_Index) {
+            if ($this instanceof Eden_Array_Index) {
                 //set value
                 $this->data = $result;
                 return $this;
@@ -140,16 +140,16 @@ class Eden_Array_Index
      * @return void
      */
     public function __construct($data = null) 
-	{
-		//if there is more arguments or data is not an array
-        if(func_num_args() > 1 || (!is_null($data) && !is_array($data))) {
+    {
+        //if there is more arguments or data is not an array
+        if (func_num_args() > 1 || (!is_null($data) && !is_array($data))) {
             //just get the args
             $data = func_get_args();
         }
-		
-		if($data) {
-        	$this->original = $this->data = $data;
-		}
+        
+        if ($data) {
+            $this->original = $this->data = $data;
+        }
     }
 
     /**
@@ -166,18 +166,18 @@ class Eden_Array_Index
 
         $this->data[$name] = $value;
     }
-	
+    
     /**
      * If we output this to string we should see it as json
      *
      * @return string
      */
     public function __toString() 
-	{
+    {
         return json_encode($this->get());
     }
-	
-	/**
+    
+    /**
      * Copies the value of source key into destination key
      *
      * @param string
@@ -185,11 +185,11 @@ class Eden_Array_Index
      * @return this
      */
     public function copy($source, $destination)  
-	{
+    {
         Eden_Array_Argument::i()
-			//argument 1 must be a string
+            //argument 1 must be a string
             ->test(1, 'string')  
-			//argument 2 must be a string
+            //argument 2 must be a string
             ->test(2, 'string'); 
 
         $this->data[$destination] = $this->data[$source];
@@ -202,7 +202,7 @@ class Eden_Array_Index
      * @return string
      */
     public function count()  
-	{
+    {
         return count($this->data);
     }
 
@@ -213,18 +213,18 @@ class Eden_Array_Index
      * @return this
      */
     public function cut($key)  
-	{
+    {
         //argument 1 must be scalar
         Eden_Array_Argument::i()->test(1, 'scalar');
 
         //if nothing to cut
-        if(!isset($this->data[$key])) {
+        if (!isset($this->data[$key])) {
             //do nothing
             return $this;
         }
 
         //unset the value
-        unset($this->data[$key]);
+       unset($this->data[$key]);
         //reindex the list
         $this->data = array_values($this->data);
         return $this;
@@ -237,7 +237,7 @@ class Eden_Array_Index
      * @return void
      */
     public function current()  
-	{
+    {
         return current($this->data);
     }
 
@@ -248,24 +248,24 @@ class Eden_Array_Index
      * @return this
      */
     public function each($callback)  
-	{
+    {
         Eden_Array_Argument::i()->test(1, 'callable');
 
-        foreach($this->data as $key => $value) {
+        foreach ($this->data as $key => $value) {
             call_user_func($callback, $key, $value);
         }
 
         return $this;
     }
-	
-	/**
+    
+    /**
      * Returns the value
      *
      * @param bool whether to get the modified or original version
      * @return string
      */
     public function get($modified = true) 
-	{
+    {
         //argument 1 must be a bool
         Eden_Array_Argument::i()->test(1, 'bool');
 
@@ -278,7 +278,7 @@ class Eden_Array_Index
      * @return bool
      */
     public function isEmpty() 
-	{
+    {
         return empty($this->data);
     }
 
@@ -289,7 +289,7 @@ class Eden_Array_Index
      * @return void
      */
     public function key() 
-	{
+    {
         return key($this->data);
     }
 
@@ -300,7 +300,7 @@ class Eden_Array_Index
      * @return void
      */
     public function next() 
-	{
+    {
         next($this->data);
     }
 
@@ -311,7 +311,7 @@ class Eden_Array_Index
      * @return bool
      */
     public function offsetExists($offset) 
-	{
+    {
         //argument 1 must be scalar, null or bool
         Eden_Array_Argument::i()->test(1, 'scalar', 'null', 'bool');
 
@@ -325,7 +325,7 @@ class Eden_Array_Index
      * @return bool
      */
     public function offsetGet($offset) 
-	{
+    {
         //argument 1 must be scalar, null or bool
         Eden_Array_Argument::i()->test(1, 'scalar', 'null', 'bool');
 
@@ -340,7 +340,7 @@ class Eden_Array_Index
      * @return void
      */
     public function offsetSet($offset, $value) 
-	{
+    {
         //argument 1 must be scalar, null or bool
         Eden_Array_Argument::i()->test(1, 'scalar', 'null', 'bool');
 
@@ -360,7 +360,7 @@ class Eden_Array_Index
      * @return bool
      */
     public function offsetUnset($offset) 
-	{
+    {
         //argument 1 must be scalar, null or bool
         Eden_Array_Argument::i()->test(1, 'scalar', 'null', 'bool');
 
@@ -378,29 +378,29 @@ class Eden_Array_Index
      * @return this
      */
     public function paste($after, $value, $key = null) 
-	{
+    {
         //Argument test
         Eden_Array_Argument::i()
-			//Argument 1 must be a scalar
+            //Argument 1 must be a scalar
             ->test(1, 'scalar')                
-			//Argument 3 must be a scalar or null
+            //Argument 3 must be a scalar or null
             ->test(3, 'scalar', 'null');    
 
         $list = array();
         //for each row
-        foreach($this->data as $i => $val) {
+        foreach ($this->data as $i => $val) {
             //add this row back to the list
             $list[$i] = $val;
 
             //if this is not the key we are
             //suppose to paste after 
-            if($after != $i) {
+            if ($after != $i) {
                 //do nothing more
                 continue;
             }
 
             //if there was a key involved
-            if(!is_null($key)) {
+            if (!is_null($key)) {
                 //lets add the new value
                 $list[$key] = $value;
                 continue;
@@ -411,7 +411,7 @@ class Eden_Array_Index
         }
 
         //if there was no key involved
-        if(is_null($key)) {
+        if (is_null($key)) {
             //reindex the array
             $list = array_values($list);
         }
@@ -428,7 +428,7 @@ class Eden_Array_Index
      * @return this
      */
     public function revert() 
-	{
+    {
         $this->data = $this->original;
         return $this;
     }
@@ -440,7 +440,7 @@ class Eden_Array_Index
      * @return void
      */
     public function rewind() 
-	{
+    {
         reset($this->data);
     }
 
@@ -450,7 +450,7 @@ class Eden_Array_Index
      * @return string
      */
     public function serialize() 
-	{
+    {
         return json_encode($this->data);
     }
 
@@ -461,17 +461,17 @@ class Eden_Array_Index
      * @return this
      */
     public function set($value = null) 
-	{
-		if(is_null($value)) {
-			$value = array();
-		}
+    {
+        if (is_null($value)) {
+            $value = array();
+        }
         
-		if(!is_array($value)) {
-			$value = func_get_args();
-		}
-		
-		$this->__construct($value);
-		
+        if (!is_array($value)) {
+            $value = func_get_args();
+        }
+        
+        $this->__construct($value);
+        
         return $this;
     }
 
@@ -482,7 +482,7 @@ class Eden_Array_Index
      * @return this
      */
     public function unserialize($data) 
-	{
+    {
         //argument 1 must be a string
         Eden_Array_Argument::i()->test(1, 'string');
 
@@ -498,41 +498,41 @@ class Eden_Array_Index
      * @return bool
      */
     public function valid() 
-	{
+    {
         return isset($this->data[$this->key()]);
     }
-	
-	/**
+    
+    /**
      * A PHP method excepts arrays in 3 ways, first argument,
-	 * last argument and as a reference
-	 *
-	 * @param string
-	 * @return string|false
-	 */
+     * last argument and as a reference
+     *
+     * @param string
+     * @return string|false
+     */
     protected function getMethod($name) 
-	{
-        if(isset(self::$methods[$name])) {
+    {
+        if (isset(self::$_methods[$name])) {
             return $name;
         }
 
-        if(isset(self::$methods['str_'.$name])) {
+        if (isset(self::$_methods['str_'.$name])) {
             return 'str_'.$name;
         }
 
         $uncamel = strtolower(preg_replace("/([A-Z])/", "_$1", $name));
 
-        if(isset(self::$methods[$uncamel])) {
+        if (isset(self::$_methods[$uncamel])) {
             return $uncamel;
         }
 
-        if(isset(self::$methods['str_'.$uncamel])) {
+        if (isset(self::$_methods['str_'.$uncamel])) {
             return 'str_'.$uncamel;
         }
 
         return $name;
     }
 
-	protected static $methods = array(
+    protected static $_methods = array(
         'array_change_key_case' => self::PRE,
         'array_chunk' => self::PRE,
         'array_combine' => self::PRE,

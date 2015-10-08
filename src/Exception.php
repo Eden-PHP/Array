@@ -14,6 +14,6 @@
  * @package array
  * @author Christian Blanquera cblanquera@openovate.com
  */
-class Eden_Array_Exception extends Eden\Core\Exception 
+class Eden_Array_Exception extends Eden\Core\Exception
 {
 }
