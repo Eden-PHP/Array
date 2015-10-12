@@ -1,5 +1,5 @@
 <?php //-->
-/*
+/**
  * This file is part of the Eden package.
  * (c) 2014-2016 Openovate Labs
  *
@@ -10,27 +10,47 @@
 /**
  * Array object 
  *
- * @vendor Eden
- * @package array
- * @author Christian Blanquera cblanquera@openovate.com
+ * @package  Eden
+ * @category Array
+ * @author   Christian Blanquera <cblanquera@openovate.com>
+ * @standard PSR-2
  */
 class Eden_Array_Index 
     extends Eden_Array_Base 
     implements ArrayAccess, Iterator, Serializable, Countable
 {
+    /**
+     * @const string PRE Flag that a PHP method uses the array in the first argument
+     */
     const PRE = 'pre';
+       
+    /**
+     * @const string POST Flag that a PHP method uses the array in the last argument
+     */
     const POST = 'post';
+       
+    /**
+     * @const string REFERENCE Flag that a PHP method uses the array as a reference pass
+     */
     const REFERENCE = 'reference';
-
+       
+    /**
+     * @var array $data The data being manipulated
+     */
     public $data = array();
+       
+    /**
+     * @var array $original The data before any manipulations
+     */
     public $original = array();
     
     /**
      * Dermines if the missing method is actually a PHP call.
      * If so, call it.
      *
-     * @param *string
-     * @param *array
+     * @param *string $name Name of method
+     * @param *array  $args Arguments to pass
+     *
      * @return mixed
      */
     public function __call($name, $args)  
@@ -136,7 +156,8 @@ class Eden_Array_Index
     /**
      * Preset the data and the original
      *
-     * @param *mixed
+     * @param *mixed $data The initial data
+     *
      * @return void
      */
     public function __construct($data = null) 
@@ -155,8 +176,9 @@ class Eden_Array_Index
     /**
      * Allow object property magic to redirect to the data variable
      *
-     * @param *string
-     * @param *mixed
+     * @param *string $name  The name of the supposed property
+     * @param *mixed  $value The value of the supposed property
+     *
      * @return void
      */
     public function __set($name, $value) 
@@ -180,9 +202,10 @@ class Eden_Array_Index
     /**
      * Copies the value of source key into destination key
      *
-     * @param string
-     * @param string
-     * @return this
+     * @param *string $source      The key in the array to copy from
+     * @param *string $destination The key in which to put the value into
+     *
+     * @return Eden_Array_Index
      */
     public function copy($source, $destination)  
     {
@@ -209,7 +232,8 @@ class Eden_Array_Index
     /**
      * Removes a row in an array and adjusts all the indexes
      *
-     * @param *scalar the key to leave out
+     * @param *scalar $key the key to leave out
+     *
      * @return this
      */
     public function cut($key)  
@@ -244,8 +268,9 @@ class Eden_Array_Index
     /**
      * Loops through returned result sets
      *
-     * @param *callable
-     * @return this
+     * @param *function $callback The handler to call on each iteration 
+     *
+     * @return Eden_Array_Index
      */
     public function each($callback)  
     {
@@ -261,7 +286,8 @@ class Eden_Array_Index
     /**
      * Returns the value
      *
-     * @param bool whether to get the modified or original version
+     * @param bool $modfied Whether to get the modified or original version
+     *
      * @return string
      */
     public function get($modified = true) 
@@ -307,7 +333,8 @@ class Eden_Array_Index
     /**
      * isset using the ArrayAccess interface
      *
-     * @param *scalar|null|bool
+     * @param *scalar|null|bool $offset The key to test if exists
+     *
      * @return bool
      */
     public function offsetExists($offset) 
@@ -321,8 +348,9 @@ class Eden_Array_Index
     /**
      * returns data using the ArrayAccess interface
      *
-     * @param *scalar|null|bool
-     * @return bool
+     * @param *scalar|null|bool $offset The key to get
+     *
+     * @return mixed
      */
     public function offsetGet($offset) 
     {
@@ -335,8 +363,9 @@ class Eden_Array_Index
     /**
      * Sets data using the ArrayAccess interface
      *
-     * @param *scalar|null|bool
-     * @param mixed
+     * @param *scalar|null|bool $offset The key to set
+     * @param mixed             $value  The value the key should be set to
+     *
      * @return void
      */
     public function offsetSet($offset, $value) 
@@ -349,15 +378,14 @@ class Eden_Array_Index
         } else {
             $this->data[$offset] = $value;
         }
-
-        return $this;
     }
 
     /**
      * unsets using the ArrayAccess interface
      *
-     * @param *scalar|null|bool
-     * @return bool
+     * @param *scalar|null|bool $offset The key to unset
+     *
+     * @return void
      */
     public function offsetUnset($offset) 
     {
@@ -365,17 +393,16 @@ class Eden_Array_Index
         Eden_Array_Argument::i()->test(1, 'scalar', 'null', 'bool');
 
         unset($this->data[$offset]);
-
-        return $this;
     }
 
     /**
      * Inserts a row in an array after the given index and adjusts all the indexes
      *
-     * @param *scalar the key we are looking for to past after
-     * @param *mixed the value to paste
-     * @param scalar the key to paste along with the value
-     * @return this
+     * @param *scalar $after the key we are looking for to past after
+     * @param *mixed  $value the value to paste
+     * @param scalar  $key   the key to paste along with the value
+     *
+     * @return Eden_Array_Index
      */
     public function paste($after, $value, $key = null) 
     {
@@ -425,7 +452,7 @@ class Eden_Array_Index
     /**
      * Reverts changes back to the original
      *
-     * @return this
+     * @return Eden_Array_Index
      */
     public function revert() 
     {
@@ -457,8 +484,9 @@ class Eden_Array_Index
     /**
      * Sets data
      *
-     * @param array
-     * @return this
+     * @param mixed $value The initial set to modify
+     *
+     * @return Eden_Array_Index
      */
     public function set($value = null) 
     {
@@ -478,8 +506,9 @@ class Eden_Array_Index
     /**
      * sets data using the Serializable interface
      *
-     * @param string
-     * @return this
+     * @param *string $data the set to enter in the class
+     *
+     * @return Eden_Array_Index
      */
     public function unserialize($data) 
     {
@@ -506,7 +535,8 @@ class Eden_Array_Index
      * A PHP method excepts arrays in 3 ways, first argument,
      * last argument and as a reference
      *
-     * @param string
+     * @param string $name The name of the PHP method
+     *
      * @return string|false
      */
     protected function getMethod($name) 
@@ -531,7 +561,10 @@ class Eden_Array_Index
 
         return $name;
     }
-
+       
+    /**
+     * @var array $_methods The list of supported PHP _methods
+     */
     protected static $_methods = array(
         'array_change_key_case' => self::PRE,
         'array_chunk' => self::PRE,

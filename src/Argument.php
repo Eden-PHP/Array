@@ -1,5 +1,5 @@
 <?php //-->
-/*
+/**
  * This file is part of the Eden package.
  * (c) 2014-2016 Openovate Labs
  *
@@ -8,11 +8,12 @@
  */
 
 /**
- * Argument
+ * Argument Class
  *
- * @vendor Eden
- * @package array
- * @author Christian Blanquera cblanquera@openovate.com
+ * @package  Eden
+ * @category Array
+ * @author   Christian Blanquera <cblanquera@openovate.com>
+ * @standard PSR-2
  */
 class Eden_Array_Argument extends Eden\Core\Argument
 {
