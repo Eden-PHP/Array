@@ -1,6 +1,6 @@
 <?php //-->
 /**
- * This file is part of the Eden package.
+ * This file is part of the Eden PHP Library.
  * (c) 2014-2016 Openovate Labs
  *
  * Copyright and license information can be found at LICENSE.txt
@@ -563,7 +563,7 @@ class Eden_Array_Index
     }
        
     /**
-     * @var array $_methods The list of supported PHP _methods
+     * @var array $_methods The list of supported PHP methods
      */
     protected static $_methods = array(
         'array_change_key_case' => self::PRE,
