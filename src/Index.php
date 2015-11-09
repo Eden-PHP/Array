@@ -108,16 +108,21 @@ class Eden_Array_Index
         switch(self::$_methods[$name]) {
             case self::PRE:
                 //if pre, we add it first into the args
-                array_unshift($args, $this ->data);
+                array_unshift($args, $this->data);
                 break;
             case self::POST:
                 //if post, we add it last into the args
-                array_push($args, $this ->data);
+                array_push($args, $this->data);
                 break;
             case self::REFERENCE:
                 //if reference, we add it first 
                 //into the args and call it
-                call_user_func_array($name, array_merge(array(&$this->data), $args));
+                $result = call_user_func_array($name, array_merge(array(&$this->data), $args));
+                
+                if ($name === 'array_shift' || $name === 'array_pop') {
+                    return $result;
+                }
+                
                 return $this;
         }
         
@@ -545,8 +550,8 @@ class Eden_Array_Index
             return $name;
         }
 
-        if (isset(self::$_methods['str_'.$name])) {
-            return 'str_'.$name;
+        if (isset(self::$_methods['array_'.$name])) {
+            return 'array_'.$name;
         }
 
         $uncamel = strtolower(preg_replace("/([A-Z])/", "_$1", $name));
@@ -555,13 +560,13 @@ class Eden_Array_Index
             return $uncamel;
         }
 
-        if (isset(self::$_methods['str_'.$uncamel])) {
-            return 'str_'.$uncamel;
+        if (isset(self::$_methods['array_'.$uncamel])) {
+            return 'array_'.$uncamel;
         }
 
         return $name;
     }
-       
+
     /**
      * @var array $_methods The list of supported PHP methods
      */
@@ -569,7 +574,7 @@ class Eden_Array_Index
         'array_change_key_case' => self::PRE,
         'array_chunk' => self::PRE,
         'array_combine' => self::PRE,
-        'array_countdatas' => self::PRE,
+        'array_count_values' => self::PRE,
         'array_diff_assoc' => self::PRE,
         'array_diff_key' => self::PRE,
         'array_diff_uassoc' => self::PRE,
@@ -588,9 +593,7 @@ class Eden_Array_Index
         'array_merge' => self::PRE,
         'array_pad' => self::PRE,
         'array_reverse' => self::PRE,
-        'array_shift' => self::PRE,
         'array_slice' => self::PRE,
-        'array_splice' => self::PRE,
         'array_sum' => self::PRE,
         'array_udiff_assoc' => self::PRE,
         'array_udiff_uassoc' => self::PRE,
@@ -599,23 +602,20 @@ class Eden_Array_Index
         'array_uintersect_uassoc' => self::PRE,
         'array_uintersect' => self::PRE,
         'array_unique' => self::PRE,
-        'arraydatas' => self::PRE,    
+        'array_values' => self::PRE,    
         'count' => self::PRE,
-        'current' => self::PRE,    
-        'each' => self::PRE,
-        'end' => self::PRE,    
         'extract' => self::PRE,
-        'key' => self::PRE,    
-        'next' => self::PRE,
-        'prev' => self::PRE,    
         'sizeof' => self::PRE,
         'array_fill' => self::POST,
         'array_map' => self::POST,
         'array_search' => self::POST,    
-        'compact' => self::POST,
         'implode' => self::POST,    
         'in_array' => self::POST,
+        'array_shift' => self::REFERENCE,
+        'array_pop' => self::REFERENCE,
+        'array_push' => self::REFERENCE,
         'array_unshift' => self::REFERENCE,
+        'array_splice' => self::REFERENCE,
         'array_walk_recursive' => self::REFERENCE,
         'array_walk' => self::REFERENCE,    
         'arsort' => self::REFERENCE,
@@ -624,12 +624,10 @@ class Eden_Array_Index
         'ksort' => self::REFERENCE,    
         'natcasesort' => self::REFERENCE,
         'natsort' => self::REFERENCE,    
-        'reset' => self::REFERENCE,
         'rsort' => self::REFERENCE,    
         'shuffle' => self::REFERENCE,
         'sort' => self::REFERENCE,    
         'uasort' => self::REFERENCE,
         'uksort' => self::REFERENCE,    
-        'usort' => self::REFERENCE,
-        'array_push' => self::REFERENCE);
+        'usort' => self::REFERENCE);
 }

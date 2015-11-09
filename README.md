@@ -6,6 +6,64 @@
 - [Install](#install)
 - [Introduction](#intro)
 - [API](#api)
+    - [arsort](#arsort)
+    - [asort](#asort)
+    - [changeKeyCase](#changeKeyCase)
+    - [chunk](#chunk)
+    - [combine](#combine)
+    - [count](#count)
+    - [countValues](#countValues)
+    - [diff](#diff)
+    - [diffAssoc](#diffAssoc)
+    - [diffKey](#diffKey)
+    - [diffUassoc](#diffUassoc)
+    - [diffUkey](#diffUkey)
+    - [fill](#fill)
+    - [fillKeys](#fillKeys)
+    - [filter](#filter)
+    - [flip](#flip)
+    - [implode](#implode)
+    - [inArray](#inArray)
+    - [intersect](#intersect)
+    - [intersectAssoc](#intersectAssoc)
+    - [intersectKey](#intersectKey)
+    - [intersectUassoc](#intersectUassoc)
+    - [intersectUkey](#intersectUkey)
+    - [keys](#keys)
+    - [krsort](#krsort)
+    - [ksort](#ksort)
+    - [map](#map)
+    - [merge](#merge)
+    - [mergeRecursive](#mergeRecursive)
+    - [natcasesort](#natcasesort)
+    - [natsort](#natsort)
+    - [pad](#pad)
+    - [pop](#pop)
+    - [push](#push)
+    - [reverse](#reverse)
+    - [rsort](#rsort)
+    - [search](#search)
+    - [shift](#shift)
+    - [shuffle](#shuffle)
+    - [sizeof](#sizeof)
+    - [slice](#slice)
+    - [sort](#sort)
+    - [splice](#splice)
+    - [sum](#sum)
+    - [uasort](#uasort)
+    - [udiff](#udiff)
+    - [udiffAssoc](#udiffAssoc)
+    - [udiffUassoc](#udiffUassoc)
+    - [uintersect](#uintersect)
+    - [uintersectAssoc](#uintersectAssoc)
+    - [uintersectUassoc](#uintersectUassoc)
+    - [uksort](#uksort)
+    - [unique](#unique)
+    - [unshift](#unshift)
+    - [usort](#usort)
+    - [values](#values)
+    - [walk](#walk)
+    - [walkRecursive](#walkRecursive)
 - [Contributing](#contributing)
 
 ====
@@ -30,7 +88,7 @@ array_keys(array_reverse(array_flip(array(4, 5, 6)))); // [6, 5, 4]
 The above demonstrates that we must read this as `array_flip()`, then `array_reverse()`, followed by `array_keys()` which is inner function first going outwards. The example below shows how using types makes this line easier to read.
 
 ```
-echo eden('array')->set(4, 5, 6)->array_flip()->array_reverse()->array_keys(); //--> [6, 5, 4]
+echo eden('array')->set(4, 5, 6)->flip()->reverse()->keys(); //--> [6, 5, 4]
 ```
 
 When echoed the array object will automatically convert to a readable json. Eden covers most of the array functions provided by PHP. Below is a list of string methods you can linearly perform.
@@ -38,9 +96,9 @@ When echoed the array object will automatically convert to a readable json. Eden
 ```
 echo eden('array')
 	->set(4, 5, 6)
-	->array_flip()
-	->array_reverse()
-	->array_keys(); //--> [6, 5, 4]
+	->flip()
+	->reverse()
+	->keys(); //--> [6, 5, 4]
 ```
 
 Expressed vertically as above shows something more pleasing to a developer. Array objects, 
@@ -65,436 +123,1094 @@ foreach($array as $key => $value) {} //loop through array
 
 ====
 
-### array_change_key_case
+<a name="addslashes"></a>
 
-Same as PHP: array_change_key_case
+
+### addslashes
+
+Same as PHP: addslashes
 
 #### Usage
 
 ```
-eden('array')->array_change_key_case([int $case = CASE_LOWER]);
+eden('string')->addslashes();
 ```
 
 #### Example
 
 ```
-eden('array')
-	->set(array('a' => 1))
-	->array_change_key_case(CASE_UPPER);
+eden('string')->set('Hello')->addslashes();
 ```
 
 ====
 
-### array_chunk
+<a name="bin2hex"></a>
 
-Same as PHP: array_chunk
+
+### bin2hex
+
+Same as PHP: bin2hex
 
 #### Usage
 
 ```
-eden('array')->array_chunk(int $size[, bool $preserve_keys = false]);
+eden('string')->bin2hex();
 ```
 
 #### Example
 
 ```
-eden('array')
-	->set(1, 2, 3, 4)
-	->array_change_key_case(2);
+eden('string')->set('Hello')->bin2hex();
 ```
 
 ====
 
-### array_combine
+<a name="chunkSplit"></a>
 
-Same as PHP: array_combine
+
+### chunkSplit
+
+Same as PHP: chunk_split
 
 #### Usage
 
 ```
-eden('array')->array_combine([array $keys, ]array $values);
+eden('string')->chunkSplit();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set('a', 'b', 'c')
-	->array_combine(array(4, 5, 6));
-```
-
-*Example 2*
-
-```
-eden('array')->array_combine(array('a', 'b', 'c'), array(4, 5, 6));
+eden('string')->set('Hello')->chunkSplit();
 ```
 
 ====
 
-### array_countdatas
+<a name="convertUudecode"></a>
 
-Same as PHP: array_countdatas
+
+### convertUudecode
+
+Same as PHP: convert_uudecode
 
 #### Usage
 
 ```
-eden('array')->array_countdatas(TODO);
+eden('string')->convertUudecode();
 ```
 
 #### Example
 
 ```
-eden('array')->array_countdatas(TODO);
+eden('string')->set('Hello')->convertUudecode();
 ```
 
 ====
 
-### array_diff_assoc
+<a name="convertUuencode"></a>
 
-Same as PHP: array_diff_assoc
+
+### convertUuencode
+
+Same as PHP: convert_uuencode
 
 #### Usage
 
 ```
-eden('array')->array_diff_assoc(array $array[, array $array2..]);
+eden('string')->convertUuencode();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_diff_assoc(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_diff_assoc(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->convertUuencode();
 ```
 
 ====
 
-### array_diff_key
+<a name="countChars"></a>
 
-Same as PHP: array_diff_key
+
+### countChars
+
+Same as PHP: count_chars
 
 #### Usage
 
 ```
-eden('array')->array_diff_key(array $array[, array $array2..]);
+eden('string')->countChars();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_diff_key(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_diff_key(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->countChars();
 ```
 
 ====
 
-### array_diff_uassoc
+<a name="crypt"></a>
 
-Same as PHP: array_diff_uassoc
+
+### crypt
+
+Same as PHP: crypt
 
 #### Usage
 
 ```
-eden('array')->array_diff_uassoc(array $array[, array $array2..]);
+eden('string')->crypt();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_diff_uassoc(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_diff_uassoc(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->crypt();
 ```
 
 ====
 
-### array_diff_ukey
+<a name="explode"></a>
 
-Same as PHP: array_diff_ukey
+
+### explode
+
+Same as PHP: explode
 
 #### Usage
 
 ```
-eden('array')->array_diff_ukey(array $array[, array $array2..]);
+eden('string')->explode();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_diff_ukey(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_diff_ukey(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->explode();
 ```
 
 ====
 
-### array_diff
+<a name="hex2bin"></a>
 
-Same as PHP: array_diff
+
+### hex2bin
+
+Same as PHP: hex2bin
 
 #### Usage
 
 ```
-eden('array')->array_diff(array $array[, array $array2..]);
+eden('string')->hex2bin();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_diff(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_diff(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->hex2bin();
 ```
 
 ====
 
-### array_fill_keys
+<a name="htmlEntityDecode"></a>
 
-Same as PHP: array_fill_keys
+
+### htmlEntityDecode
+
+Same as PHP: html_entity_decode
 
 #### Usage
 
 ```
-eden('array')->array_fill_keys([array $keys, ]array $values);
+eden('string')->htmlEntityDecode();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set('a', 'b', 'c')
-	->array_fill_keys(array(4, 5, 6));
-```
-
-*Example 2*
-
-```
-eden('array')->array_fill_keys(array('a', 'b', 'c'), array(4, 5, 6));
+eden('string')->set('Hello')->htmlEntityDecode();
 ```
 
 ====
 
-### array_filter
+<a name="htmlentities"></a>
 
-Same as PHP: array_filter
+
+### htmlentities
+
+Same as PHP: htmlentities
 
 #### Usage
 
 ```
-eden('array')->array_filter(callable $callback);
+eden('string')->htmlentities();
 ```
 
 #### Example
 
 ```
-eden('array')
-	->set('a', 'b', 'c')
-	->array_filter(function() {
-		//filter process
-	});
+eden('string')->set('Hello')->htmlentities();
 ```
 
 ====
 
-### array_flip
+<a name="htmlspecialchars"></a>
 
-Same as PHP: array_flip
+
+### htmlspecialchars
+
+Same as PHP: htmlspecialchars
 
 #### Usage
 
 ```
-eden('array')->array_flip();
+eden('string')->htmlspecialchars();
 ```
 
 #### Example
 
 ```
-eden('array')->set('a', 'b', 'c')->array_flip();
+eden('string')->set('Hello')->htmlspecialchars();
 ```
 
 ====
 
-### array_intersect_assoc
+<a name="htmlspecialcharsDecode"></a>
 
-Same as PHP: array_intersect_assoc
+
+### htmlspecialcharsDecode
+
+Same as PHP: htmlspecialchars_decode
 
 #### Usage
 
 ```
-eden('array')->array_intersect_assoc(array $array[, array $array2..]);
+eden('string')->htmlspecialcharsDecode();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_intersect_assoc(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_intersect_assoc(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->htmlspecialcharsDecode();
 ```
 
 ====
 
-### array_intersect_key
+<a name="ipTags"></a>
 
-Same as PHP: array_intersect_key
+
+### ipTags
+
+Same as PHP: strip_tags
 
 #### Usage
 
 ```
-eden('array')->array_intersect_key(array $array[, array $array2..]);
+eden('string')->ipTags();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_intersect_key(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_intersect_key(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->ipTags();
 ```
 
 ====
 
-### array_intersect_uassoc
+<a name="ipcslashes"></a>
 
-Same as PHP: array_intersect_uassoc
+
+### ipcslashes
+
+Same as PHP: stripcslashes
 
 #### Usage
 
 ```
-eden('array')->array_intersect_uassoc(array $array[, array $array2..]);
+eden('string')->ipcslashes();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_intersect_uassoc(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_intersect_uassoc(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->ipcslashes();
 ```
 
 ====
 
-### array_intersect_ukey
+<a name="ipslashes"></a>
 
-Same as PHP: array_intersect_ukey
+
+### ipslashes
+
+Same as PHP: stripslashes
 
 #### Usage
 
 ```
-eden('array')->array_intersect_ukey(array $array[, array $array2..]);
+eden('string')->ipslashes();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_intersect_ukey(array('c' => 3, 'b' => 2));
-```
-
-*Example 2*
-
-```
-eden('array')->array_intersect_ukey(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->ipslashes();
 ```
 
 ====
 
-### array_intersect
+<a name="ireplace"></a>
 
-Same as PHP: array_intersect
+
+### ireplace
+
+Same as PHP: str_ireplace
 
 #### Usage
 
 ```
-eden('array')->array_intersect(array $array[, array $array2..]);
+eden('string')->ireplace();
 ```
 
 #### Example
 
-*Example 1*
-
 ```
-eden('array')
-	->set(array('a' => 1, 'b' => 2))
-	->array_intersect(array('c' => 3, 'b' => 2));
+eden('string')->set('Hello')->ireplace();
 ```
 
-*Example 2*
+====
+
+<a name="istr"></a>
+
+
+### istr
+
+Same as PHP: stristr
+
+#### Usage
 
 ```
-eden('array')->array_intersect(array('a' => 1, 'b' => 2), array('c' => 3, 'b' => 2));
+eden('string')->istr();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->istr();
+```
+
+====
+
+<a name="lcfirst"></a>
+
+
+### lcfirst
+
+Same as PHP: lcfirst
+
+#### Usage
+
+```
+eden('string')->lcfirst();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->lcfirst();
+```
+
+====
+
+<a name="len"></a>
+
+
+### len
+
+Same as PHP: strlen
+
+#### Usage
+
+```
+eden('string')->len();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->len();
+```
+
+====
+
+<a name="ltrim"></a>
+
+
+### ltrim
+
+Same as PHP: ltrim
+
+#### Usage
+
+```
+eden('string')->ltrim();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->ltrim();
+```
+
+====
+
+<a name="md5"></a>
+
+
+### md5
+
+Same as PHP: md5
+
+#### Usage
+
+```
+eden('string')->md5();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->md5();
+```
+
+====
+
+<a name="nl2br"></a>
+
+
+### nl2br
+
+Same as PHP: nl2br
+
+#### Usage
+
+```
+eden('string')->nl2br();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->nl2br();
+```
+
+====
+
+<a name="pad"></a>
+
+
+### pad
+
+Same as PHP: str_pad
+
+#### Usage
+
+```
+eden('string')->pad();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->pad();
+```
+
+====
+
+<a name="pbrk"></a>
+
+
+### pbrk
+
+Same as PHP: strpbrk
+
+#### Usage
+
+```
+eden('string')->pbrk();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->pbrk();
+```
+
+====
+
+<a name="pos"></a>
+
+
+### pos
+
+Same as PHP: strpos
+
+#### Usage
+
+```
+eden('string')->pos();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->pos();
+```
+
+====
+
+<a name="pregReplace"></a>
+
+
+### pregReplace
+
+Same as PHP: preg_replace
+
+#### Usage
+
+```
+eden('string')->pregReplace();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->pregReplace();
+```
+
+====
+
+<a name="quotedPrintableDecode"></a>
+
+
+### quotedPrintableDecode
+
+Same as PHP: quoted_printable_decode
+
+#### Usage
+
+```
+eden('string')->quotedPrintableDecode();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->quotedPrintableDecode();
+```
+
+====
+
+<a name="quotedPrintableEncode"></a>
+
+
+### quotedPrintableEncode
+
+Same as PHP: quoted_printable_encode
+
+#### Usage
+
+```
+eden('string')->quotedPrintableEncode();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->quotedPrintableEncode();
+```
+
+====
+
+<a name="quotemeta"></a>
+
+
+### quotemeta
+
+Same as PHP: quotemeta
+
+#### Usage
+
+```
+eden('string')->quotemeta();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->quotemeta();
+```
+
+====
+
+<a name="repeat"></a>
+
+
+### repeat
+
+Same as PHP: str_repeat
+
+#### Usage
+
+```
+eden('string')->repeat();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->repeat();
+```
+
+====
+
+<a name="replace"></a>
+
+
+### replace
+
+Same as PHP: str_replace
+
+#### Usage
+
+```
+eden('string')->replace();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->replace();
+```
+
+====
+
+<a name="rev"></a>
+
+
+### rev
+
+Same as PHP: strrev
+
+#### Usage
+
+```
+eden('string')->rev();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->rev();
+```
+
+====
+
+<a name="rot13"></a>
+
+
+### rot13
+
+Same as PHP: str_rot13
+
+#### Usage
+
+```
+eden('string')->rot13();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->rot13();
+```
+
+====
+
+<a name="rtrim"></a>
+
+
+### rtrim
+
+Same as PHP: rtrim
+
+#### Usage
+
+```
+eden('string')->rtrim();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->rtrim();
+```
+
+====
+
+<a name="sha1"></a>
+
+
+### sha1
+
+Same as PHP: sha1
+
+#### Usage
+
+```
+eden('string')->sha1();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->sha1();
+```
+
+====
+
+<a name="shuffle"></a>
+
+
+### shuffle
+
+Same as PHP: str_shuffle
+
+#### Usage
+
+```
+eden('string')->shuffle();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->shuffle();
+```
+
+====
+
+<a name="sprintf"></a>
+
+
+### sprintf
+
+Same as PHP: sprintf
+
+#### Usage
+
+```
+eden('string')->sprintf();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->sprintf();
+```
+
+====
+
+<a name="str"></a>
+
+
+### str
+
+Same as PHP: strstr
+
+#### Usage
+
+```
+eden('string')->str();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->str();
+```
+
+====
+
+<a name="substr"></a>
+
+
+### substr
+
+Same as PHP: substr
+
+#### Usage
+
+```
+eden('string')->substr();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->substr();
+```
+
+====
+
+<a name="substrCompare"></a>
+
+
+### substrCompare
+
+Same as PHP: substr_compare
+
+#### Usage
+
+```
+eden('string')->substrCompare();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->substrCompare();
+```
+
+====
+
+<a name="substrCount"></a>
+
+
+### substrCount
+
+Same as PHP: substr_count
+
+#### Usage
+
+```
+eden('string')->substrCount();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->substrCount();
+```
+
+====
+
+<a name="substrReplace"></a>
+
+
+### substrReplace
+
+Same as PHP: substr_replace
+
+#### Usage
+
+```
+eden('string')->substrReplace();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->substrReplace();
+```
+
+====
+
+<a name="tok"></a>
+
+
+### tok
+
+Same as PHP: strtok
+
+#### Usage
+
+```
+eden('string')->tok();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->tok();
+```
+
+====
+
+<a name="tolower"></a>
+
+
+### tolower
+
+Same as PHP: strtolower
+
+#### Usage
+
+```
+eden('string')->tolower();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->tolower();
+```
+
+====
+
+<a name="toupper"></a>
+
+
+### toupper
+
+Same as PHP: strtoupper
+
+#### Usage
+
+```
+eden('string')->toupper();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->toupper();
+```
+
+====
+
+<a name="tr"></a>
+
+
+### tr
+
+Same as PHP: strtr
+
+#### Usage
+
+```
+eden('string')->tr();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->tr();
+```
+
+====
+
+<a name="trim"></a>
+
+
+### trim
+
+Same as PHP: trim
+
+#### Usage
+
+```
+eden('string')->trim();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->trim();
+```
+
+====
+
+<a name="ucfirst"></a>
+
+
+### ucfirst
+
+Same as PHP: ucfirst
+
+#### Usage
+
+```
+eden('string')->ucfirst();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->ucfirst();
+```
+
+====
+
+<a name="ucwords"></a>
+
+
+### ucwords
+
+Same as PHP: ucwords
+
+#### Usage
+
+```
+eden('string')->ucwords();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->ucwords();
+```
+
+====
+
+<a name="vsprintf"></a>
+
+
+### vsprintf
+
+Same as PHP: vsprintf
+
+#### Usage
+
+```
+eden('string')->vsprintf();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->vsprintf();
+```
+
+====
+
+<a name="wordwrap"></a>
+
+
+### wordwrap
+
+Same as PHP: wordwrap
+
+#### Usage
+
+```
+eden('string')->wordwrap();
+```
+
+#### Example
+
+```
+eden('string')->set('Hello')->wordwrap();
 ```
 
 ====
