@@ -907,10 +907,9 @@ class Eden_Array_Test_Index extends PHPUnit_Framework_TestCase
 	{
 		$test = eden('array')
 			->set(1, 2, 3)
-			->implode(', ')
-			->get();
+			->implode(', ');
 		
-		$this->assertEquals('1, 2, 3', $test);
+		$this->assertEquals('1, 2, 3', (string) $test);
 	}
 	
 	public function test_in_array()
