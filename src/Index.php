@@ -130,7 +130,7 @@ class Eden_Array_Index
         $result = call_user_func_array($name, $args);
 
         //if the result is a string
-        if (is_string($result)) {
+        if (is_string($result) && class_exists('Eden_String_Index')) {
             //if this class is a string type
             if ($this instanceof Eden_String_Index) {
                 //set value
