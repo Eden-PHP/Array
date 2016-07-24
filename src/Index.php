@@ -186,6 +186,26 @@ class Eden_Array_Index
      *
      * @return void
      */
+    public function __get($name) 
+    {
+        //argument 1 must be a string
+        Eden_Array_Argument::i()->test(1, 'string');
+
+        if (isset($this->data[$name])) {
+            return $this->data[$name];
+        }
+        
+        return null;
+    }
+
+    /**
+     * Allow object property magic to redirect to the data variable
+     *
+     * @param *string $name  The name of the supposed property
+     * @param *mixed  $value The value of the supposed property
+     *
+     * @return void
+     */
     public function __set($name, $value) 
     {
         //argument 1 must be a string

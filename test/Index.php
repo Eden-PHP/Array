@@ -368,22 +368,34 @@ class Eden_Array_Test_Index extends PHPUnit_Framework_TestCase
 	public function test_array_intersect_uassoc()
 	{
 		$test = eden('array')
-			->set(array('a' => 1, 'b' => 2))
-			->array_intersect_uassoc(array('c' => 3, 'b' => 2), function($value1, $value2) {
-				return $value1;
-			})
+			->set(array('a' => 'red', 'b' => 'green', 'c' => 'blue'))
+			->array_intersect_uassoc(
+				array('d' => 'red', 'b' => 'green', 'e' => 'blue'), 
+				function($value1, $value2) {
+					if ($value1 === $value2) {
+						return 0;
+					}
+					
+					return ($value1 > $value2) ? 1: -1;
+				})
 			->get();
 		
-		$this->assertEquals(2, $test['b']);
+		$this->assertEquals('green', $test['b']);
 		
 		$test = eden('array')
-			->set(array('a' => 1, 'b' => 2))
-			->intersectUassoc(array('c' => 3, 'b' => 2), function($value1, $value2) {
-				return $value1;
-			})
+			->set(array('a' => 'red', 'b' => 'green', 'c' => 'blue'))
+			->intersectUassoc(
+				array('d' => 'red', 'b' => 'green', 'e' => 'blue'), 
+				function($value1, $value2) {
+					if ($value1 === $value2) {
+						return 0;
+					}
+					
+					return ($value1 > $value2) ? 1: -1;
+				})
 			->get();
 		
-		$this->assertEquals(2, $test['b']);
+		$this->assertEquals('green', $test['b']);
 	}
 	
 	public function test_array_intersect_ukey()
@@ -1203,8 +1215,11 @@ class Eden_Array_Test_Index extends PHPUnit_Framework_TestCase
 		$test = eden('array')
 			->set(1, 2, 0)
 			->usort(function($value1, $value2) {
-				return $value1;
+				if ($value1 === $value2) {
+					return 0;
+				}
 				
+				return ($value1 > $value2) ? 1: -1;
 			})
 			->get();
 			
